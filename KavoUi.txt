@@ -292,7 +292,7 @@ function Kavo.CreateLib(kavName, themeList)
     title.BorderSizePixel = 0
     title.Position = UDim2.new(0.0171428565, 0, 0.344827592, 0)
     title.Size = UDim2.new(0, 204, 0, 8)
-    title.Font = Enum.Font.Gotham
+    title.Font = Enum.Font.GothamBold
     title.RichText = true
     title.Text = kavName
     title.TextColor3 = Color3.fromRGB(245, 245, 245)
@@ -308,12 +308,13 @@ function Kavo.CreateLib(kavName, themeList)
     close.Image = "rbxassetid://3926305904"
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
-    local blurFrame = Instance.new("Frame")
+-- Add the blur frame to the Kavo UI
+local blurFrame = Instance.new("Frame")
 blurFrame.Name = "blurFrame"
 blurFrame.Parent = ScreenGui
 blurFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-blurFrame.BackgroundTransparency = 0.5
-blurFrame.Size = UDim2.new(1, 0, 1, 0)
+blurFrame.BackgroundTransparency = 0.5 -- Semi-transparent black
+blurFrame.Size = UDim2.new(1, 0, 1, 0) -- Cover entire screen
 blurFrame.Position = UDim2.new(0, 0, 0, 0)
 blurFrame.Visible = false
 
@@ -325,22 +326,24 @@ local noButton = Instance.new("TextButton")
 confirmationFrame.Name = "confirmationFrame"
 confirmationFrame.Parent = ScreenGui
 confirmationFrame.BackgroundColor3 = Color3.fromRGB(36, 37, 43)
-confirmationFrame.Position = UDim2.new(0.4, 0, 0.4, 0)
+confirmationFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Center anchor point
+confirmationFrame.Position = UDim2.new(0.5, 0, 0.5, 0) -- Centered on screen
 confirmationFrame.Size = UDim2.new(0, 250, 0, 150)
 confirmationFrame.Visible = false
 confirmationFrame.ClipsDescendants = true
-confirmationFrame.BackgroundTransparency = 1 -- For fade-in effect
+confirmationFrame.BackgroundTransparency = 1 -- Fade-in effect starts here
 
 confirmationText.Name = "confirmationText"
 confirmationText.Parent = confirmationFrame
 confirmationText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-confirmationText.BackgroundTransparency = 1
+confirmationText.BackgroundTransparency = 1 -- Fade-in effect
 confirmationText.Size = UDim2.new(1, 0, 0.6, 0)
 confirmationText.Font = Enum.Font.Gotham
 confirmationText.Text = "Are you sure you want to close the UI?"
 confirmationText.TextColor3 = Color3.fromRGB(245, 245, 245)
 confirmationText.TextSize = 18
 confirmationText.TextWrapped = true
+confirmationText.TextTransparency = 1 -- Text starts hidden for fade-in effect
 
 yesButton.Name = "yesButton"
 yesButton.Parent = confirmationFrame
@@ -351,6 +354,8 @@ yesButton.Font = Enum.Font.Gotham
 yesButton.Text = "Yes"
 yesButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 yesButton.TextSize = 16
+yesButton.BackgroundTransparency = 1 -- Fade-in effect
+yesButton.TextTransparency = 1 -- Fade-in effect for text
 
 noButton.Name = "noButton"
 noButton.Parent = confirmationFrame
@@ -361,15 +366,37 @@ noButton.Font = Enum.Font.Gotham
 noButton.Text = "No"
 noButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 noButton.TextSize = 16
+noButton.BackgroundTransparency = 1 -- Fade-in effect
+noButton.TextTransparency = 1 -- Fade-in effect for text
 
 close.MouseButton1Click:Connect(function()
+    blurFrame.Visible = true -- Show blur frame
     confirmationFrame.Visible = true
-    blurFrame.Visible = true
     confirmationFrame.Size = UDim2.new(0, 0, 0, 0)
     confirmationFrame.BackgroundTransparency = 1
+    confirmationText.TextTransparency = 1
+    yesButton.TextTransparency = 1
+    noButton.TextTransparency = 1
+    yesButton.BackgroundTransparency = 1
+    noButton.BackgroundTransparency = 1
+
     game.TweenService:Create(confirmationFrame, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Size = UDim2.new(0, 250, 0, 150),
         BackgroundTransparency = 0
+    }):Play()
+
+    game.TweenService:Create(confirmationText, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        TextTransparency = 0
+    }):Play()
+
+    game.TweenService:Create(yesButton, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundTransparency = 0,
+        TextTransparency = 0
+    }):Play()
+
+    game.TweenService:Create(noButton, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+        BackgroundTransparency = 0,
+        TextTransparency = 0
     }):Play()
 end)
 
@@ -378,15 +405,19 @@ yesButton.MouseButton1Click:Connect(function()
         Size = UDim2.new(0, 0, 0, 0),
         BackgroundTransparency = 1
     }):Play()
+
     wait(0.2)
     blurFrame.Visible = false
     confirmationFrame.Visible = false
+
     game.TweenService:Create(Main, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
         Size = UDim2.new(0, 0, 0, 0),
         Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
     }):Play()
+
     wait(1)
     ScreenGui:Destroy()
+    ToggleButton:Destroy()
 end)
 
 noButton.MouseButton1Click:Connect(function()
@@ -394,6 +425,7 @@ noButton.MouseButton1Click:Connect(function()
         Size = UDim2.new(0, 0, 0, 0),
         BackgroundTransparency = 1
     }):Play()
+
     wait(0.2)
     confirmationFrame.Visible = false
     blurFrame.Visible = false
