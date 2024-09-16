@@ -308,6 +308,12 @@ function Kavo.CreateLib(kavName, themeList)
     close.Image = "rbxassetid://3926305904"
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
+-- Define the placeholder for createlib function
+function createlib()
+    -- Placeholder logic, customize this based on your actual use case
+    print("createlib function called!")
+end
+
 -- Add blur frame to Kavo UI
 local blurFrame = Instance.new("Frame")
 blurFrame.Name = "blurFrame"
@@ -421,17 +427,15 @@ close.MouseButton1Click:Connect(function()
     }):Play()
 end)
 
--- Handle Yes button click (animate Kavo UI close and destroy)
+-- Handle Yes button click (animate Kavo UI close and destroy with centered shrink)
 yesButton.MouseButton1Click:Connect(function()
-    -- Set the anchor point and position to the center of Main for a centered shrink effect
+    -- Set the anchor point to the center without changing position
     Main.AnchorPoint = Vector2.new(0.5, 0.5)
-    Main.Position = UDim2.new(0.5, 0, 0.5, 0)
 
-    -- Shrink and fade-out the Kavo UI (Main) before destroying it
+    -- Shrink and fade-out the Kavo UI (Main) without moving it
     game.TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0),
-        BackgroundTransparency = 1,
-        Position = UDim2.new(0.5, 0, 0.5, 0) -- Stay centered
+        BackgroundTransparency = 1 -- Centered shrink
     }):Play()
 
     game.TweenService:Create(blurFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
