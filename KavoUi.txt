@@ -421,26 +421,28 @@ close.MouseButton1Click:Connect(function()
     }):Play()
 end)
 
--- Handle Yes button click (destroy ToggleButton and close UI)
+-- Handle Yes button click (animate Kavo UI close and destroy)
 yesButton.MouseButton1Click:Connect(function()
-    -- Destroy the ToggleButton (ScreenGui)
-    if ScreenGui then
-        ScreenGui:Destroy()
-    end
-
-    -- Close the confirmation dialog
-    game.TweenService:Create(confirmationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+    -- Shrink and fade-out the Kavo UI (Main) before destroying it
+    game.TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0),
-        BackgroundTransparency = 1
+        BackgroundTransparency = 1,
+        Position = UDim2.new(0.5, 0, 0.5, 0)
     }):Play()
 
     game.TweenService:Create(blurFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         BackgroundTransparency = 1 -- Fully transparent
     }):Play()
 
-    wait(0.5)
-    blurFrame.Visible = false
+    wait(0.5) -- Wait for the animation to complete before destroying
+
+    if Main then
+        Main:Destroy() -- Destroy Kavo UI (Main) after animation
+    end
+
+    -- Close the confirmation dialog
     confirmationFrame.Visible = false
+    blurFrame.Visible = false
 end)
 
 -- Handle No button click (cancel and hide confirmation dialog)
