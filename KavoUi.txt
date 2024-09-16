@@ -308,12 +308,6 @@ function Kavo.CreateLib(kavName, themeList)
     close.Image = "rbxassetid://3926305904"
     close.ImageRectOffset = Vector2.new(284, 4)
     close.ImageRectSize = Vector2.new(24, 24)
--- Define the placeholder for createlib function
-function createlib()
-    -- Placeholder logic, customize this based on your actual use case
-    print("createlib function called!")
-end
-
 -- Add blur frame to Kavo UI
 local blurFrame = Instance.new("Frame")
 blurFrame.Name = "blurFrame"
@@ -427,30 +421,28 @@ close.MouseButton1Click:Connect(function()
     }):Play()
 end)
 
--- Handle Yes button click (animate Kavo UI close and destroy with centered shrink)
+-- Handle Yes button click (close UI)
 yesButton.MouseButton1Click:Connect(function()
-    -- Set the anchor point to the center without changing position
-    Main.AnchorPoint = Vector2.new(0.5, 0.5)
-
-    -- Shrink and fade-out the Kavo UI (Main) without moving it
-    game.TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
+    game.TweenService:Create(confirmationFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0),
-        BackgroundTransparency = 1 -- Centered shrink
+        BackgroundTransparency = 1
     }):Play()
 
     game.TweenService:Create(blurFrame, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
         BackgroundTransparency = 1 -- Fully transparent
     }):Play()
 
-    wait(0.5) -- Wait for the animation to complete before destroying
-
-    if Main then
-        Main:Destroy() -- Destroy Kavo UI (Main) after animation
-    end
-
-    -- Close the confirmation dialog
-    confirmationFrame.Visible = false
+    wait(0.5)
     blurFrame.Visible = false
+    confirmationFrame.Visible = false
+
+    game.TweenService:Create(Main, TweenInfo.new(0.1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {
+        Size = UDim2.new(0, 0, 0, 0),
+        Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
+    }):Play()
+
+    wait(1)
+    ScreenGui:Destroy()
 end)
 
 -- Handle No button click (cancel and hide confirmation dialog)
