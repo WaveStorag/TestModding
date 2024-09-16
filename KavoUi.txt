@@ -341,46 +341,27 @@ confirmationFrame.BorderSizePixel = 0 -- Remove pixel border
 UICorner.CornerRadius = UDim.new(0, 10) -- Customize corner radius
 UICorner.Parent = confirmationFrame
 
--- Configure the confirmation text with white color
-confirmationText.Name = "confirmationText"
-confirmationText.Parent = confirmationFrame
-confirmationText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-confirmationText.BackgroundTransparency = 1 -- Fade-in effect
-confirmationText.Size = UDim2.new(1, 0, 0.6, 0)
-confirmationText.Font = Enum.Font.Gotham
-confirmationText.Text = "Are you sure you want to close the UI?"
-confirmationText.TextColor3 = Color3.fromRGB(245, 245, 245) -- White text for contrast
-confirmationText.TextSize = 18
-confirmationText.TextWrapped = true
-confirmationText.TextTransparency = 1 -- Text starts hidden for fade-in effect
+-- Configure the confirmation frame with dark theme
+confirmationFrame.Name = "confirmationFrame"
+confirmationFrame.Parent = Main -- Attached to the Main UI
+confirmationFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45) -- Dark gray background for the dialog
+confirmationFrame.AnchorPoint = Vector2.new(0.5, 0.5) -- Center anchor point
+confirmationFrame.Position = UDim2.new(0.5, 0, 0.5, 0) -- Centered
+confirmationFrame.Size = UDim2.new(0, 250, 0, 150)
+confirmationFrame.Visible = false
+confirmationFrame.ClipsDescendants = true
+confirmationFrame.BackgroundTransparency = 1 -- Fade-in effect starts here
+confirmationFrame.BorderSizePixel = 0
+confirmationFrame.ZIndex = 999 -- Set a high ZIndex to ensure it stays on top
 
--- Configure the Yes button with dark gray color
-yesButton.Name = "yesButton"
-yesButton.Parent = confirmationFrame
-yesButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60) -- Dark gray button background
-yesButton.Size = UDim2.new(0.45, 0, 0.25, 0)
-yesButton.Position = UDim2.new(0.05, 0, 0.7, 0)
-yesButton.Font = Enum.Font.Gotham
-yesButton.Text = "Yes"
-yesButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text for contrast
-yesButton.TextSize = 16
-yesButton.BackgroundTransparency = 1 -- Fade-in effect
-yesButton.TextTransparency = 1 -- Fade-in effect for text
-yesButton.BorderSizePixel = 0 -- Remove pixel border
+-- Increase ZIndex for confirmation text and buttons as well
+confirmationText.ZIndex = 1000
+yesButton.ZIndex = 1000
+noButton.ZIndex = 1000
 
--- Configure the No button with dark gray color
-noButton.Name = "noButton"
-noButton.Parent = confirmationFrame
-noButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60) -- Dark gray button background
-noButton.Size = UDim2.new(0.45, 0, 0.25, 0)
-noButton.Position = UDim2.new(0.5, 0, 0.7, 0)
-noButton.Font = Enum.Font.Gotham
-noButton.Text = "No"
-noButton.TextColor3 = Color3.fromRGB(255, 255, 255) -- White text for contrast
-noButton.TextSize = 16
-noButton.BackgroundTransparency = 1 -- Fade-in effect
-noButton.TextTransparency = 1 -- Fade-in effect for text
-noButton.BorderSizePixel = 0 -- Remove pixel border
+-- Apply UICorner for rounded edges on confirmation frame
+UICorner.CornerRadius = UDim.new(0, 10) -- Customize corner radius
+UICorner.Parent = confirmationFrame
 
 -- Close button action with fade-in effects for blur and confirmation dialog
 close.MouseButton1Click:Connect(function()
