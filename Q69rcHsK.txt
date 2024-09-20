@@ -1,4 +1,4 @@
-local Kavo = {}
+pplocal Kavo = {}
 
 local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
@@ -318,8 +318,8 @@ function Kavo.CreateLib(kavName, themeList)
 			Position = UDim2.new(0, Main.AbsolutePosition.X + (Main.AbsoluteSize.X / 2), 0, Main.AbsolutePosition.Y + (Main.AbsoluteSize.Y / 2))
 		}):Play()
         wait(1)
-        ScreenGui:Destroy()
         ToggleButton:Destroy()
+        ScreenGui:Destroy()
     end)
 
     MainSide.Name = "MainSide"
